@@ -22,6 +22,16 @@ namespace TrendingHub {
                     webview.stop();
                     shell.openExternal(url);
                 });
+
+                // Note: Skip headers
+                webview.executeJavaScript(`
+                    (function() {
+                        const list = document.querySelector('div.repo-list');
+                        if (list) {
+                            window.scrollTo(0, list.firstElementChild.offsetTop);
+                        }
+                    })();
+                `);
             });
 
             return webview;
@@ -55,6 +65,7 @@ namespace TrendingHub {
 
         focus(): void {
             this.element.id = 'focused';
+            this.element.focus();
         }
 
         blur(): void {

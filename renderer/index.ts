@@ -38,13 +38,24 @@ function currentWebview() {
     return views[focused_idx].webview;
 }
 
+// XXX: It doesn't work now.
+function simulateKeyPress(view: ElectronWebview, keycode: number, shift: boolean) {
+    return `
+    function() {
+        let e = document.createEvent('KeyboardEvent');
+        e.initKeyboardEvent('keypress', true, true, window, ${keycode}, ${keycode}, DOM_KEY_LOCATION_STANDARD, '${shift ? 'shift' : ''}');
+        document.body.dispatchEvent(e);
+    }();
+    `;
+}
+
 function enableShortcuts(shortcuts: Object) {
     let receiver = new TrendingHub.KeyReceiver(shortcuts);
 
     receiver.on('PreviousLang', () => focusMove(false));
     receiver.on('NextLang', () => focusMove(true));
-    receiver.on('SelectNext', () => console.log('Not implemented yet!'));
-    receiver.on('SelectPrevious', () => console.log('Not implemented yet!'));
+    receiver.on('SelectNext', () => currentWebview().executeJavaScript('window.scrollBy(0, window.innerHeight / 5)')); // Temporarily
+    receiver.on('SelectPrevious', () => currentWebview().executeJavaScript('window.scrollBy(0, -window.innerHeight / 5)')); // Temporarily
     receiver.on('Reload', () => remote.getCurrentWindow().reload());
     receiver.on('Cut', () => currentWebview().cut());
     receiver.on('Paste', () => currentWebview().paste());
