@@ -7,30 +7,40 @@ namespace GHTrending {
         public  element: HTMLElement;
         private webview: ElectronWebview;
 
-        constructor(public lang: string, width: number, height: number) {
-            this.element = document.createElement('div');
-            this.element.className = 'trending-window';
-            this.element.style.width = width + 'px';
-            this.element.style.height = height + 'px';
-
-            this.webview = <ElectronWebview>document.createElement('webview');
-            this.webview.className = 'trending-window';
-            this.webview.style.width = width + 'px';
-            this.webview.style.height = height + 'px';
-            this.element.appendChild(this.webview);
-            this.webview.addEventListener('new-window', function(e: any){
+        private prepareWebview(width: number, height: number) {
+            let webview = <ElectronWebview>document.createElement('webview');
+            webview.className = 'trending-window';
+            webview.style.width = width + 'px';
+            webview.style.height = height + 'px';
+            webview.addEventListener('new-window', function(e: any){
                 console.log('Guest window tries to open new window: ' + e.url);
                 shell.openExternal(e.url);
             });
-            this.webview.addEventListener('dom-ready', function(e: any){
-                this.webview.addEventListener('did-start-loading', function(e: any){
-                    e.preventDefault();
-                    const url = this.webview.getUrl();
-                    console.log('Guest window starts to open: ' + url);
-                    this.webview.stop();
+            webview.addEventListener('dom-ready', function(e: any){
+                webview.addEventListener('did-start-loading', function(e: any){
+                    const url = webview.getUrl();
+                    webview.stop();
                     shell.openExternal(url);
                 });
             });
+
+            return webview;
+        }
+
+        private prepareWrapper(width: number, height: number) {
+            let element = document.createElement('div');
+            element.className = 'trending-window';
+            element.style.width = width + 'px';
+            element.style.height = height + 'px';
+
+            this.webview = this.prepareWebview(width, height);
+            element.appendChild(this.webview);
+
+            return element;
+        }
+
+        constructor(public lang: string, width: number, height: number) {
+            this.element = this.prepareWrapper(width, height);
         }
 
         load(): void {

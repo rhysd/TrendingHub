@@ -13,6 +13,7 @@ function addTrendingPage(lang, width) {
     const view = new GHTrending.TrendingView(lang, width, height);
     document.body.appendChild(view.element);
     view.load();
+    return view;
 }
 
 window.onload = function() {
@@ -25,3 +26,4 @@ window.onload = function() {
         addTrendingPage(lang, pane_width);
     }
 };
+
