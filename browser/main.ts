@@ -1,33 +1,67 @@
 import * as app from 'app';
 import * as path from 'path';
 import BrowserWindow = require('browser-window');
-import * as config from './config';
+import * as Menu from 'menu';
+import * as Config from './config';
+import {openExternal} from 'shell';
 
 require('crash-reporter').start();
 
-var mainWindow = null;
-var user_config = config.load();
+// Initialization
+var main_window = null;
+var config = Config.load();
 
 const idx = process.argv.indexOf('--lang');
 if (idx != -1) {
-    user_config.languages = process.argv.slice(idx);
+    config.languages = process.argv.slice(idx);
 }
 
+// Application callbacks
 app.on('window-all-closed', function(){ app.quit(); });
 
 app.on('ready', function(){
     const display_size = require('screen').getPrimaryDisplay().workAreaSize;
 
-    mainWindow = new BrowserWindow({
+    main_window = new BrowserWindow({
             width: display_size.width,
             height: display_size.height,
         });
 
     const html = 'file://' + path.resolve(__dirname, '..', 'static', 'index.html');
-    mainWindow.loadUrl(html);
+    main_window.loadUrl(html);
 
-    mainWindow.on('closed', function(){
-        mainWindow = null;
+    main_window.on('closed', function(){
+        main_window = null;
     });
-});
 
+    const template = [
+        {
+            label: 'GitHubTrending',
+
+            submenu: [
+                {
+                    label: 'Reload',
+                    click: () => main_window.reload(),
+                },
+                {
+                    label: 'DevTools',
+                    click: () => main_window.toggleDevTools(),
+                },
+                {
+                    label: 'Quit App',
+                    accelerator: 'CommandOrControl+Q',
+                    click: () => app.quit(),
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    label: 'About GitHubTrending',
+                    click: () => openExternal('https://github.com/rhysd/GitHubTrending'),
+                }
+            ]
+        }
+    ];
+
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+});
