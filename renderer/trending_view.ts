@@ -29,6 +29,7 @@ namespace GHTrending {
 
         private prepareWrapper(width: number, height: number) {
             let element = document.createElement('div');
+            element.id = 'unfocused';
             element.className = 'trending-window';
             element.style.width = width + 'px';
             element.style.height = height + 'px';
@@ -50,6 +51,14 @@ namespace GHTrending {
             } else {
                 this.webview.src = 'https://github.com/trending?l=' + this.lang;
             }
+        }
+
+        focus(): void {
+            this.element.id = 'focused';
+        }
+
+        blur(): void {
+            this.element.id = 'unfocused';
         }
     }
 }
