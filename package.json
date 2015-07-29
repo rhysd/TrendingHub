@@ -1,0 +1,29 @@
+{
+  "name": "ghtrend",
+  "productName": "GitHubTrend",
+  "version": "0.0.1",
+  "description": "GitHub Trending Browser",
+  "main": "./build/browser/main.js",
+  "bin": {
+    "soundkloud": "./bin/cli.js"
+  },
+  "author": "rhysd <lin90162@yahoo.co.jp>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rhysd/GitHubTrending.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rhysd/GitHubTrending/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^3.3.1"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^0.30.0"
+  },
+  "scripts": {
+    "build": "rake build",
+    "start": "./bin/cli.js"
+  }
+}
