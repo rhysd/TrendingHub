@@ -1,8 +1,8 @@
 {
-  "name": "ghtrend",
-  "productName": "GitHubTrend",
+  "name": "trendinghub",
+  "productName": "TrendingHub",
   "version": "0.0.1",
-  "description": "GitHub Trending Browser",
+  "description": "Multi column GitHub trending browser",
   "main": "./build/browser/main.js",
   "bin": {
     "soundkloud": "./bin/cli.js"
@@ -10,10 +10,10 @@
   "author": "rhysd <lin90162@yahoo.co.jp>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rhysd/GitHubTrending.git"
+    "url": "https://github.com/rhysd/TrendingHub.git"
   },
   "bugs": {
-    "url": "https://github.com/rhysd/GitHubTrending/issues"
+    "url": "https://github.com/rhysd/TrendingHub/issues"
   },
   "license": "MIT",
   "dependencies": {

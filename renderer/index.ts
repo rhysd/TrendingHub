@@ -4,7 +4,7 @@
 /// <reference path="keyboard.ts" />
 
 var remote = require('remote');
-var views: GHTrending.TrendingView[] = [];
+var views: TrendingHub.TrendingView[] = [];
 var focused_idx = 0;
 
 function removeAllChildren (elem) {
@@ -16,7 +16,7 @@ function removeAllChildren (elem) {
 function addTrendingPage(lang, width) {
     // Note: document.body.clientHeight doesn't work here.
     const height = window.innerHeight;
-    const view = new GHTrending.TrendingView(lang, width, height);
+    const view = new TrendingHub.TrendingView(lang, width, height);
     document.body.appendChild(view.element);
     view.load();
     views.push(view);
@@ -39,7 +39,7 @@ function currentWebview() {
 }
 
 function enableShortcuts(shortcuts: Object) {
-    let receiver = new GHTrending.KeyReceiver(shortcuts);
+    let receiver = new TrendingHub.KeyReceiver(shortcuts);
 
     receiver.on('PreviousLang', () => focusMove(false));
     receiver.on('NextLang', () => focusMove(true));
@@ -53,6 +53,8 @@ function enableShortcuts(shortcuts: Object) {
     receiver.on('ScrollDown', () => currentWebview().executeJavaScript('window.scrollBy(0, -window.innerHeight / 5)'));
     receiver.on('QuitApp', () => remote.require('app').quit());
     receiver.on('DevTools', () => remote.getCurrentWindow().toggleDevTools());
+    receiver.on('GoForward', () => currentWebview().goForward());
+    receiver.on('GoBack', () => currentWebview().goBack());
     return receiver;
 }
 

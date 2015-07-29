@@ -1,6 +1,6 @@
 /// <reference path="lib.d.ts" />
 
-namespace GHTrending {
+namespace TrendingHub {
     const shell = require('shell');
 
     export class TrendingView {

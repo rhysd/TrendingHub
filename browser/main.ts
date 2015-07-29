@@ -36,7 +36,7 @@ app.on('ready', function(){
 
     const template = [
         {
-            label: 'GitHubTrending',
+            label: 'TrendingHub',
 
             submenu: [
                 {
@@ -56,8 +56,8 @@ app.on('ready', function(){
                     type: 'separator'
                 },
                 {
-                    label: 'About GitHubTrending',
-                    click: () => openExternal('https://github.com/rhysd/GitHubTrending'),
+                    label: 'About TrendingHub',
+                    click: () => openExternal('https://github.com/rhysd/TrendingHub'),
                 }
             ]
         }

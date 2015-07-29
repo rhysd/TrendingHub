@@ -1,6 +1,6 @@
 /// <reference path="../typings/mousetrap/mousetrap.d.ts" />
 
-namespace GHTrending {
+namespace TrendingHub {
     export class KeyReceiver {
         callbacks: Object;
 
