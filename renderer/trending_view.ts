@@ -4,8 +4,8 @@ namespace GHTrending {
     const shell = require('shell');
 
     export class TrendingView {
-        public  element: HTMLElement;
-        private webview: ElectronWebview;
+        element: HTMLElement;
+        webview: ElectronWebview;
 
         private prepareWebview(width: number, height: number) {
             let webview = <ElectronWebview>document.createElement('webview');

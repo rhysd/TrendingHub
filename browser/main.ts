@@ -1,15 +1,16 @@
 import * as app from 'app';
 import * as path from 'path';
 import BrowserWindow = require('browser-window');
+import * as config from './config';
 
 require('crash-reporter').start();
 
 var mainWindow = null;
+var user_config = config.load();
 
 const idx = process.argv.indexOf('--lang');
-var langs = []; // Note: Select random languages
 if (idx != -1) {
-    langs = process.argv.slice(idx);
+    user_config.languages = process.argv.slice(idx);
 }
 
 app.on('window-all-closed', function(){ app.quit(); });

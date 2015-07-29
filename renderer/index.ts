@@ -1,7 +1,9 @@
 /// <reference path="../typings/mousetrap/mousetrap.d.ts" />
 /// <reference path="lib.d.ts" />
 /// <reference path="trending_view.ts" />
+/// <reference path="keyboard.ts" />
 
+var remote = require('remote');
 var views: GHTrending.TrendingView[] = [];
 var focused_idx = 0;
 
@@ -32,18 +34,41 @@ function focusMove(advance: boolean) {
     views[focused_idx].focus();
 }
 
-window.onload = function() {
-    const langs = ['all', 'vim', 'crystal', 'rust', 'go'];
-    const pane_width = document.body.clientWidth / langs.length;
+function currentWebview() {
+    return views[focused_idx].webview;
+}
 
+function enableShortcuts(shortcuts: Object) {
+    let receiver = new GHTrending.KeyReceiver(shortcuts);
+
+    receiver.on('PreviousLang', () => focusMove(false));
+    receiver.on('NextLang', () => focusMove(true));
+    receiver.on('SelectNext', () => console.log('Not implemented yet!'));
+    receiver.on('SelectPrevious', () => console.log('Not implemented yet!'));
+    receiver.on('Reload', () => remote.getCurrentWindow().reload());
+    receiver.on('Cut', () => currentWebview().cut());
+    receiver.on('Paste', () => currentWebview().paste());
+    receiver.on('Copy', () => currentWebview().copy());
+    receiver.on('ScrollUp', () => currentWebview().executeJavaScript('window.scrollBy(0, window.innerHeight / 5)'));
+    receiver.on('ScrollDown', () => currentWebview().executeJavaScript('window.scrollBy(0, -window.innerHeight / 5)'));
+    receiver.on('QuitApp', () => remote.require('app').quit());
+    receiver.on('DevTools', () => remote.getCurrentWindow().toggleDevTools());
+    return receiver;
+}
+
+window.onload = function() {
+    const config = remote.require('./config').load();
+
+    enableShortcuts(config.shortcuts);
+
+    const pane_width = document.body.clientWidth / config.languages.length;
     removeAllChildren(document.body);
 
-    for (const lang of langs) {
+    for (const lang of config.languages) {
         addTrendingPage(lang, pane_width);
     }
 
     views[focused_idx].focus();
-
 };
 
 Mousetrap.bind('l', () => focusMove(true));
