@@ -11,6 +11,7 @@ namespace TrendingHub {
             let webview = <ElectronWebview>document.createElement('webview');
             webview.className = 'trending-window';
             webview.style.width = width + 'px';
+            webview.style.minWidth = '375px';  // iPhone6
             webview.style.height = height + 'px';
             webview.addEventListener('new-window', function(e: any){
                 console.log('Guest window tries to open new window: ' + e.url);
@@ -43,6 +44,7 @@ namespace TrendingHub {
             element.className = 'trending-window';
             element.style.width = width + 'px';
             element.style.height = height + 'px';
+            element.style.minWidth = '375px';  // iPhone6
 
             this.webview = this.prepareWebview(width, height);
             element.appendChild(this.webview);
@@ -65,7 +67,7 @@ namespace TrendingHub {
 
         focus(): void {
             this.element.id = 'focused';
-            this.element.focus();
+            this.webview.focus();
         }
 
         blur(): void {

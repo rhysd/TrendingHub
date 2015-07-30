@@ -31,7 +31,20 @@ function focusMove(advance: boolean) {
     } else if (focused_idx < 0) {
         focused_idx = views.length - 1;
     }
-    views[focused_idx].focus();
+    let v = views[focused_idx];
+    v.focus();
+
+    const top = document.body.scrollTop;
+    const left_edge = document.body.scrollLeft;
+    const right_edge = left_edge + window.innerWidth;
+    const elem_left = v.element.offsetLeft;
+    const elem_right = elem_left + v.element.offsetWidth;
+
+    if (right_edge < elem_right) {
+        window.scrollTo(elem_right, top);
+    } else if (elem_left < left_edge) {
+        window.scrollTo(elem_left, top);
+    }
 }
 
 function currentWebview() {
@@ -84,5 +97,3 @@ window.onload = function() {
     views[focused_idx].focus();
 };
 
-Mousetrap.bind('l', () => focusMove(true));
-Mousetrap.bind('h', () => focusMove(false));
