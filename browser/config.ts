@@ -6,6 +6,8 @@ import * as fs from 'fs';
 export interface Config {
     languages: string[];
     shortcuts: Object;
+    width: number | string;
+    height: number | string;
 }
 
 export function load(): Config {
@@ -28,6 +30,8 @@ export function load(): Config {
             'mod+p': 'ScrollDown',
             'mod+q': 'QuitApp',
         },
+        width: 'max',
+        height: 'max',
     };
 
     function mergeConfig(c1: Config, c2: Object) {

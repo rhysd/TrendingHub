@@ -21,10 +21,11 @@ app.on('window-all-closed', function(){ app.quit(); });
 
 app.on('ready', function(){
     const display_size = require('screen').getPrimaryDisplay().workAreaSize;
+    const getLength = prop => typeof(config[prop]) === 'number' ? config[prop] : display_size[prop];
 
     main_window = new BrowserWindow({
-            width: display_size.width,
-            height: display_size.height,
+            width: getLength('width'),
+            height: getLength('height'),
         });
 
     const html = 'file://' + path.resolve(__dirname, '..', 'static', 'index.html');
