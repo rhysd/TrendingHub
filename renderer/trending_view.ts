@@ -27,9 +27,21 @@ namespace TrendingHub {
                 // Note: Skip headers
                 webview.executeJavaScript(`
                     (function() {
-                        const list = document.querySelector('div.repo-list');
-                        if (list) {
-                            window.scrollTo(0, list.firstElementChild.offsetTop);
+                        'use strict';
+
+                        const navbar = document.querySelector('header.nav-bar');
+                        if (navbar) {
+                            navbar.style.display = 'none';
+                        }
+
+                        const control = document.querySelector('div.pulse-control');
+                        if (control) {
+                            control.style.display = 'none';
+                        }
+
+                        const nav = document.querySelector('nav.tabs');
+                        if (nav) {
+                            nav.style.display = 'none';
                         }
                     })();
                 `);
