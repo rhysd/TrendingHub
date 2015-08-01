@@ -8,6 +8,8 @@
   },
   "files": [
     "../typings/tsd.d.ts",
+    "config.ts",
+    "lang_color.ts",
     "main.ts"
   ]
 }

@@ -2,8 +2,8 @@ import * as app from 'app';
 import * as path from 'path';
 import BrowserWindow = require('browser-window');
 import * as Menu from 'menu';
-import * as Config from './config';
 import {openExternal} from 'shell';
+import * as Config from './config';
 
 require('crash-reporter').start();
 
