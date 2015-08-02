@@ -16,10 +16,10 @@ export function allColors(callback: (colors: Object) => void) {
                     const langs = yaml.safeLoad(body);
                     for (const name in langs) {
                         const lang = langs[name];
-                        this.cache[name] = lang.color;
+                        this.cache[name.toLowerCase()] = lang.color;
                         if ('aliases' in lang) {
                             for (const alias of lang.aliases) {
-                                this.cache[alias] = lang.color;
+                                this.cache[alias.toLowerCase()] = lang.color;
                             }
                         }
                     }

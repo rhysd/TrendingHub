@@ -91,7 +91,7 @@ window.onload = function() {
     removeAllChildren(document.body);
 
     for (const lang of config.languages) {
-        addTrendingPage(lang, pane_width);
+        addTrendingPage(lang.toLowerCase(), pane_width);
     }
 
     views[focused_idx].focus();

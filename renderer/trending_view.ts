@@ -2,6 +2,8 @@
 
 namespace TrendingHub {
     const shell = require('shell');
+    const remote = require('remote');
+    const lang_color = remote.require('./lang_color');
 
     export class TrendingView {
         element: HTMLElement;
@@ -10,16 +12,24 @@ namespace TrendingHub {
         private prepareHeader(lang: string) {
             let header = document.createElement('header');
             header.className = 'lang-header';
+
             let icon_span = document.createElement('span');
             icon_span.className = 'header-icon';
             let icon = document.createElement('i');
             icon.className = 'fa fa-github';
             icon_span.appendChild(icon);
             header.appendChild(icon_span);
+
+            lang_color.colorOf(lang, color => {
+                header.style.borderColor = color;
+                icon_span.style.color = color;
+            });
+
             let lang_name = document.createElement('span');
             lang_name.innerText = lang;
             lang_name.className = 'header-text';
             header.appendChild(lang_name);
+
             return header;
         }
 
@@ -66,7 +76,7 @@ namespace TrendingHub {
             return webview;
         }
 
-        private prepareWrapper(width: number, height: number) {
+        private prepareWrapper(width: number, height: number, lang: string) {
             let element = document.createElement('div');
             element.id = 'unfocused';
             element.className = 'trending-window';
@@ -74,7 +84,7 @@ namespace TrendingHub {
             element.style.height = height + 'px';
             element.style.minWidth = '375px';  // iPhone6
 
-            element.appendChild(this.prepareHeader('Dummy'));
+            element.appendChild(this.prepareHeader(lang));
 
             this.webview = this.prepareWebview(width, height);
             element.appendChild(this.webview);
@@ -83,7 +93,8 @@ namespace TrendingHub {
         }
 
         constructor(public lang: string, width: number, height: number) {
-            this.element = this.prepareWrapper(width, height);
+            // XXX: 36 means the height of header
+            this.element = this.prepareWrapper(width, height - 36, lang);
         }
 
         load(): void {
@@ -96,12 +107,12 @@ namespace TrendingHub {
         }
 
         focus(): void {
-            this.element.id = 'focused';
+            this.element.className = 'focused';
             this.webview.focus();
         }
 
         blur(): void {
-            this.element.id = 'unfocused';
+            this.element.className = 'unfocused';
         }
     }
 }
