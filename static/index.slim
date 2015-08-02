@@ -3,6 +3,16 @@ html
   head
     title GitHub Trendings
     css:
+      .header-text {
+        font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+        font-size: 20px;
+        color: #333333;
+        padding: 2px;
+      }
+      .header-icon {
+        font-size: 25px;
+        padding: 2px;
+      }
       .trending-window {
         overflow: hidden;
       }
@@ -23,6 +33,14 @@ html
         width: 100%;
         height: 100%;
       }
+      .lang-header {
+        margin: 0px;
+        padding: 0px;
+        background-color: #e7ecee;
+        border-bottom: 8px solid #333333;
+        border-radius: 4px;
+      }
+    link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
   body
     script src="../../node_modules/mousetrap/mousetrap.min.js"
     script src="../renderer/index.js"

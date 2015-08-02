@@ -7,6 +7,22 @@ namespace TrendingHub {
         element: HTMLElement;
         webview: ElectronWebview;
 
+        private prepareHeader(lang: string) {
+            let header = document.createElement('header');
+            header.className = 'lang-header';
+            let icon_span = document.createElement('span');
+            icon_span.className = 'header-icon';
+            let icon = document.createElement('i');
+            icon.className = 'fa fa-github';
+            icon_span.appendChild(icon);
+            header.appendChild(icon_span);
+            let lang_name = document.createElement('span');
+            lang_name.innerText = lang;
+            lang_name.className = 'header-text';
+            header.appendChild(lang_name);
+            return header;
+        }
+
         private prepareWebview(width: number, height: number) {
             let webview = <ElectronWebview>document.createElement('webview');
             webview.className = 'trending-window';
@@ -57,6 +73,8 @@ namespace TrendingHub {
             element.style.width = width + 'px';
             element.style.height = height + 'px';
             element.style.minWidth = '375px';  // iPhone6
+
+            element.appendChild(this.prepareHeader('Dummy'));
 
             this.webview = this.prepareWebview(width, height);
             element.appendChild(this.webview);
