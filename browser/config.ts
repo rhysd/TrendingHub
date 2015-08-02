@@ -16,7 +16,7 @@ export function load(): Config {
     }
 
     this.cache = <Config>{
-        languages: ['all', 'vim', 'crystal', 'rust', 'go'], // XXX: temporary
+        languages: [],
         shortcuts: {
             'h': 'PreviousLang',
             'l': 'NextLang',

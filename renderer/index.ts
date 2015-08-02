@@ -82,18 +82,57 @@ function enableShortcuts(shortcuts: Object) {
     return receiver;
 }
 
-window.onload = function() {
-    const config = remote.require('./config').load();
+function setTrendingPages(langs: string[]) {
+    const pane_width = document.body.clientWidth / langs.length;
 
-    enableShortcuts(config.shortcuts);
-
-    const pane_width = document.body.clientWidth / config.languages.length;
-    removeAllChildren(document.body);
-
-    for (const lang of config.languages) {
+    for (const lang of langs) {
         addTrendingPage(lang.toLowerCase(), pane_width);
     }
 
     views[focused_idx].focus();
+}
+
+function sample<T>(array: T[], count: number) {
+  let n = array.length;
+
+  while (count > 0) {
+    const i = Math.floor(Math.random() * n--);
+    const t = array[n];
+    array[n] = array[i];
+    array[i] = t;
+    count--;
+  }
+
+  return array.slice(n);
+}
+
+function setRandomTrendingPages() {
+    const num_langs = Math.floor(document.body.clientWidth / 375);
+
+    if (num_langs < 1) {
+        setTrendingPages(['all']);
+    }
+
+    remote.require('./lang_color').languageNames((names: string[]) => {
+        // First language is always 'all'.
+        const idx = names.indexOf('all');
+        if (idx !== -1) {
+            names.splice(idx, 1);
+        }
+        setTrendingPages(['all'].concat(sample(names, num_langs-1)));
+    });
+}
+
+window.onload = function() {
+    const config = remote.require('./config').load();
+
+    enableShortcuts(config.shortcuts);
+    removeAllChildren(document.body);
+
+    if (config.languages.length === 0) {
+        setRandomTrendingPages();
+    } else {
+        setTrendingPages(config.languages);
+    }
 };
 
