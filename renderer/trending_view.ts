@@ -79,7 +79,7 @@ namespace TrendingHub {
         private prepareWrapper(width: number, height: number, lang: string) {
             let element = document.createElement('div');
             element.id = 'unfocused';
-            element.className = 'trending-window';
+            element.className = 'unfocused';
             element.style.width = width + 'px';
             element.style.height = height + 'px';
             element.style.minWidth = '375px';  // iPhone6
