@@ -8,6 +8,7 @@ export interface Config {
     shortcuts: Object;
     width: number | string;
     height: number | string;
+    proxy: string;
 }
 
 export function load(): Config {
@@ -32,6 +33,7 @@ export function load(): Config {
         },
         width: 'max',
         height: 'max',
+        proxy: '',
     };
 
     function mergeConfig(c1: Config, c2: Object) {
