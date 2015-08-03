@@ -43,31 +43,37 @@ namespace TrendingHub {
                 console.log('Guest window tries to open new window: ' + e.url);
                 shell.openExternal(e.url);
             });
-            webview.addEventListener('dom-ready', function(e: any){
-                webview.addEventListener('did-start-loading', function(e: any){
-                    const url = webview.getUrl();
-                    webview.stop();
-                    shell.openExternal(url);
-                });
-
-                // Note: Skip headers
+            webview.addEventListener('dom-ready', function(e: Event){
+                // Note:
+                // Remove headers. webview.insertCSS() doesn't work.
+                //
+                // XXX:
+                // Set link's target to 'new' to open the link in external browser.
+                // using node.js integration and 'onclick' event doesn't work.
                 webview.executeJavaScript(`
                     (function() {
                         'use strict';
-
-                        const navbar = document.querySelector('header.nav-bar');
+                        const navbar = document.querySelector('.nav-bar');
                         if (navbar) {
                             navbar.style.display = 'none';
                         }
 
-                        const control = document.querySelector('div.pulse-control');
+                        const control = document.querySelector('.pulse-control');
                         if (control) {
                             control.style.display = 'none';
                         }
 
-                        const nav = document.querySelector('nav.tabs');
+                        const nav = document.querySelector('.tabs');
                         if (nav) {
                             nav.style.display = 'none';
+                        }
+
+                        const links = document.querySelectorAll('a');
+                        for (let i = 0; i < links.length; ++i) {
+                            let link = links.item(i);
+                            if (link.href) {
+                                link.setAttribute('target', 'new');
+                            }
                         }
                     })();
                 `);
